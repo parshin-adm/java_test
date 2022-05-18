@@ -9,7 +9,9 @@ public class Work {
         //createTwoArray();
         //int[] array = createArray(5, 1);
         //System.out.println(Arrays.toString(array));
-        FindMinMaxArray();
+        //FindMinMaxArray();
+        int[] a = {2, 2, 2, 1, 2, 2, 10, 1};
+        System.out.println(checkBalance(a));
 
     }
 
@@ -98,6 +100,21 @@ public class Work {
     //Примеры:
     //checkBalance([2, 2, 2, 1, 2, 2, ||| 10, 1]) → true, т.е. 2 + 2 + 2 + 1 + 2 + 2 = 10 + 1
     //checkBalance([1, 1, 1, ||| 2, 1]) → true, т.е. 1 + 1 + 1 = 2 + 1
+
+    private static boolean checkBalance(int[] array) {
+        int sumLeft = 0;
+        int sumRight = 0;
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 1; j < array.length - i; j++) {
+                sum += array[j];
+            }
+            if(array[i] == sum)
+                return true;
+
+        }
+
+        return false;
+    }
 
 
 

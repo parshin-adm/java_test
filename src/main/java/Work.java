@@ -10,8 +10,9 @@ public class Work {
         //int[] array = createArray(5, 1);
         //System.out.println(Arrays.toString(array));
         //FindMinMaxArray();
-        int[] a = {2, 2, 2, 1, 2, 2, 10, 1};
-        System.out.println(checkBalance(a));
+        int[] a = {1, 2, 3};
+
+        shiftArray(a, -2);
 
     }
 
@@ -20,17 +21,18 @@ public class Work {
         int[] array = {1, 0, 1, 0, 0, 0, 0, 1, 1, 0};
         for (int i = 0; i < array.length; i++) {
 
-            if(array[i] == 1)
+            if (array[i] == 1)
                 array[i] = 0;
             else
                 array[i] = 1;
         }
         System.out.println(Arrays.toString(array));
     }
+
     private static void createArray() {
         int[] array = new int[100];
         for (int i = 0; i < array.length; i++) {
-            array[i] = i+1;
+            array[i] = i + 1;
         }
         System.out.println(Arrays.toString(array));
     }
@@ -41,7 +43,7 @@ public class Work {
     private static void multiplyArray() {
         int[] array = {1, 5, 3, 2, 11, 4, 5, 2, 4, 8, 9, 1};
         for (int i = 0; i < array.length; i++) {
-            if(array[i] < 6)
+            if (array[i] < 6)
                 array[i] *= 2;
         }
         System.out.println(Arrays.toString(array));
@@ -57,7 +59,7 @@ public class Work {
         int[][] array = new int[3][3];
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
-                if(i == j || i == array[i].length - 1 - j)
+                if (i == j || i == array[i].length - 1 - j)
                     array[i][j] = 1;
                 else
                     array[i][j] = 0;
@@ -85,10 +87,10 @@ public class Work {
         int min = array[0];
         int max = array[0];
 
-        for (int i = 1; i < array.length ; i++) {
-            if(min > array[i])
+        for (int i = 1; i < array.length; i++) {
+            if (min > array[i])
                 min = array[i];
-            if(max < array[i])
+            if (max < array[i])
                 max = array[i];
         }
         System.out.println("Min = " + min + ", Max = " + max);
@@ -105,20 +107,74 @@ public class Work {
         int sumLeft = 0;
         int sumRight = 0;
         for (int i = 0; i < array.length; i++) {
-            for (int j = 1; j < array.length - i; j++) {
-                sum += array[j];
+            for (int j = 0; j < array.length; j++) {
+                if (i <= j)
+                    sumLeft += array[j];
+                else
+                    sumRight += array[j];
             }
-            if(array[i] == sum)
+            if (sumLeft == sumRight)
                 return true;
-
+            else {
+                sumLeft = 0;
+                sumRight = 0;
+            }
         }
 
         return false;
     }
 
+    //*** Написать метод, которому на вход подается одномерный массив и число n (может быть
+    //положительным, или отрицательным), при этом метод должен сместить все элементы массива
+    //на n позиций. Элементы смещаются циклично. Для усложнения задачи нельзя пользоваться
+    //вспомогательными массивами. Примеры: [ 1, 2, 3 ] при n = 1 (на один вправо) -> [ 3, 1, 2 ]; [ 3, 5,
+    //6, 1] при n = -2 (на два влево) -> [ 6, 1, 3, 5 ]. При каком n в какую сторону сдвиг можете
+    //выбирать сами.
 
+    private static int[] shiftArray(int[] array, int n) {
+        int tmp1 = array[0];
+        int tmp2 = array[0];
+
+        if(n == 0)
+            return array;
+
+        else if(n > 0) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 1; j < array.length; j++) {
+                    tmp1 = array[j];
+                    array[j] = tmp2;
+                    tmp2 = tmp1;
+                    if(j == array.length - 1) {
+                        array[0] = tmp2;
+                    }
+                }
+            }
+        }
+        else if(n < 0) {
+            for (int i = 0; i < -n; i++) {
+                for (int j = array.length -1; j >= 0; j--) {
+                    tmp1 = array[j];
+                    array[j] = tmp2;
+                    tmp2 = tmp1;
+                    if(j == 0) {
+                        array[array.length-1] = tmp2;
+                    }
+                }
+            }
+        }
+
+        System.out.println(Arrays.toString(array));
+        return array;
+    }
 
 
 
 
 }
+
+
+
+
+
+
+

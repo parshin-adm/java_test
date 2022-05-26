@@ -109,25 +109,98 @@ public class Game {
     private boolean checkEnd(int turnsCount) {
 
        if(turnsCount %2 != 0) {
-           if(checkWin(human.getRowNumber(), human.getColumnNumber())){
+           if(checkWin(human.getColumnNumber(), human.getRowNumber() )){
                System.out.println("Человек победил");
                return true;
            }
        }
        else {
-           if(checkWin(ai.getRowNumber(), ai.getColumnNumber())){ //AI
+           if(checkWin(ai.getColumnNumber(), ai.getRowNumber())){ //AI
                System.out.println("Компьютер победил");
                return true;
            }
        }
-       return turnsCount == map.getSize();
+       return turnsCount == (map.getSize() * map.getSize());
 
     }
 
     private boolean checkWin(int x, int y) {
-        
+        if(checkWinStr(getStringHorizontal(y))) {
+            return true;
+        }
+        else if(checkWinStr(getStringVertical(x))){
+            return true;
+        }
+        else if(checkWinStr(getStringPositiveDiagonal(x, y))) {
+            return true;
+        }
+        else return checkWinStr(getStringNegativeDiagonal(x, y));
 
-        return false;
+    }
+
+    private String getStringVertical(int x) {
+        StringBuilder str = new StringBuilder();
+        for (int y = 0; y < map.getSize(); y++) {
+            str.append(map.getDotMap(y, x));
+        }
+        return str.toString();
+    }
+
+    private String getStringHorizontal(int y) {
+        StringBuilder str = new StringBuilder();
+        for (int x = 0; x < map.getSize(); x++) {
+            str.append(map.getDotMap(y, x));
+        }
+        return str.toString();
+    }
+
+    private String getStringPositiveDiagonal(int x, int y) {
+        // y = x + b проверка у, x
+        int b = y - x;
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < map.getSize(); i++) {
+            x = i;
+            y = x + b;
+            if(y >= 0 && y < map.getSize()) {
+                str.append(map.getDotMap(y, x));
+            }
+            else return str.toString();
+        }
+        return str.toString();
+    }
+
+    private String getStringNegativeDiagonal(int x, int y) {
+        // y = x + b проверка у, x
+        int b = y + x;
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < map.getSize(); i++) {
+            x = i;
+            y = -x + b;
+            if(y >= 0 && y < map.getSize()) {
+                str.append(map.getDotMap(y, x));
+            }
+            else return str.toString();
+        }
+        return str.toString();
+    }
+
+    private boolean checkWinStr(String str) {
+        int count = 0;
+        if(turnsCount %2 != 0) {
+            for (int i = 0; i < str.length(); i++) {
+                if(str.charAt(i) == map.getDOT_HUMAN()){
+                    count++;
+                }
+            }
+        }
+        else {
+            for (int i = 0; i < str.length(); i++) {
+                if(str.charAt(i) == map.getDOT_AI()){
+                    count++;
+                }
+            }
+        }
+        return count >= 3;
     }
 
 

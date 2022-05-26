@@ -26,8 +26,8 @@ public class Map {
 
     }
 
-    public char getDotMap(int i, int j) {
-        return map[i][j];
+    public char getDotMap(int y, int x) {
+        return map[y][x];
     }
 
     public boolean isCellFree(int rowNumber, int columnNumber) {
